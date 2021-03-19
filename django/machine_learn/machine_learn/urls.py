@@ -21,5 +21,5 @@ print(os.getcwd())
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('top/',views.test_view)
+    path('top/',views.top_view)
 ]

@@ -6,5 +6,5 @@ from machine.script import hello
 import os
 
 
-def test_view(request):
-    return render(request, "test.html")
+def top_view(request):
+    return render(request, "top.html")
