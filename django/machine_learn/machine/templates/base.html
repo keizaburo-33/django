@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'machine/css/bootstrap.min.css'%}">
+    <script src="{% static 'machine/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'machine/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body>
+aaaaaaaaaaaaaaaaaaaaaaa
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+</body>
+</html>

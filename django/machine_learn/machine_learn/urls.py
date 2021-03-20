@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from machine import views
 import os
-print(os.getcwd())
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('top/',views.top_view)
+    path('top/', views.TopView),
+    path("login/", views.LoginView.as_view()),
+    path("logout/", views.log_out)
+
 ]

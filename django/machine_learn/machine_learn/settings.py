@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'machine'
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -114,3 +116,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/home/machine33/django/django/machine_learn/static'
+
+
