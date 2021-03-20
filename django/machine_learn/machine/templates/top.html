@@ -1,17 +1,14 @@
 {% extends "base.html" %}
     {% block content%}
+    <meta http-equiv="refresh" content="10; URL=">
 <center><div class="hello">タオとケイの家</div></center>
 <center><h1>タオちゃんこんにちは</h1></center>
-<form method="post" action="/logout/">
-    {% csrf_token %}
-    <button type="submit">ログアウト</button>
-</form>
    <h4 class="mt-4 border-bottom">書籍の一覧</h4>
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">書籍名</th>
+          <th scope="col"></th>
           <th scope="col">出版社</th>
           <th scope="col">ページ数</th>
           <th scope="col">操作</th>
@@ -34,8 +31,7 @@
     document.write("こんにちは");
     }
     jQuery(function($){
-    $(".hello").css("background","orange");
+    $(".hello").css("background","blue");
     });
 </script>
-
     {% endblock %}

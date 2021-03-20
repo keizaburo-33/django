@@ -34,9 +34,9 @@ class LoginView(TemplateView):
 
         if len(User.objects.filter(user_id=user_id, password=password)) == 0:
             User.objects.create(**info)
-
-        context=c["c"]
-        print(context)
+        context={}
+        if "c" in c:
+            context=c["c"]
 
         request.session["next"] = request.META.get('HTTP_REFERER','/top')
 
