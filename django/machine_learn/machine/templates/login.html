@@ -13,6 +13,11 @@
     <label for="exampleInputPassword1">パスワード</label>
     <input type="password" class="form-control" id="exampleInputPassword1" placeholder="パスワード" name="password">
   </div>
+    {% if message%}
+    <div class="alert alert-warning" role="alert">
+        {{message}}
+    </div>
+    {% endif %}
   <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">チェックしてください</label>

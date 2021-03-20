@@ -22,7 +22,7 @@ def log_out(request):
 class LoginView(TemplateView):
     template_name = "login.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **c):
         name = "ケイ"
         password = "abc303"
         user_id = "kei"
@@ -35,8 +35,9 @@ class LoginView(TemplateView):
         if len(User.objects.filter(user_id=user_id, password=password)) == 0:
             User.objects.create(**info)
 
+        context=c["c"]
+        print(context)
 
-        context = {}
         request.session["next"] = request.META.get('HTTP_REFERER','/top')
 
         return render(request, self.template_name, context)
@@ -46,7 +47,7 @@ class LoginView(TemplateView):
         password = request.POST["password"]
         x = User.objects.filter(user_id=user_id, password=password)
         if len(x) == 0:
-            return self.get(request, {"name": "invalid"})
+            return self.get(request, c={"message": "ユーザー名かパスワードが違います。"})
         request.session["user_id"] = user_id
         request.session["user_name"] = x.first().name
         return redirect("/top")
