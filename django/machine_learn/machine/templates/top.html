@@ -28,4 +28,30 @@
         {% endfor %}
       </tbody>
     </table>
+<script>
+    var x = new XMLHttpRequest();
+    for(var i=1;i<10;i++){
+    document.write("こんにちは");
+    }
+    jQuery(function($){
+    $(".hello").css("background","orange");
+    });
+</script>
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">ユーザーID</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="ユーザーID">
+    <small id="emailHelp" class="form-text text-muted">パスワードを入力してください</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">パスワード</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="パスワード">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+ <button type="button" class="btn btn-primary btn-lg">ログイン</button>
+</form>
+
     {% endblock %}
