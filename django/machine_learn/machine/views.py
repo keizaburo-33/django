@@ -23,9 +23,9 @@ class LoginView(TemplateView):
     template_name = "login.html"
 
     def get(self, request, *args, **c):
-        name = "ケイ"
-        password = "abc303"
-        user_id = "kei"
+        name = "タオ"
+        password = "thao1231"
+        user_id = "thao"
         info = {
             "name": name,
             "user_id": user_id,
