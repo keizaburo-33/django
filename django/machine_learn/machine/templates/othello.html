@@ -54,6 +54,9 @@ text-decoration: none;
                           }
                         ).done(
                         function(data) {
+                              if(data=="failure"){
+                                return;
+                              }
                               write_board(data);
         }
                         )

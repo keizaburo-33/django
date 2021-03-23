@@ -1,5 +1,7 @@
 import pickle
 import base64
+import numpy as np
+import random
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -77,12 +79,29 @@ class OthelloView(TemplateView):
 
 def put_stone(request):
     cell = request.GET["cell"]
-    if cell=="start":
+    if cell == "start":
         board = Board()
         encode_and_save_session(request, board, "board")
         return HttpResponse(board.get_flatten_board())
-    board=get_session_object(request,"board")
-    board.putstone(cell)
+    board: Board = get_session_object(request, "board")
+    pos = board.num_to_pos(cell)
+    if not board.is_available(pos):
+        return HttpResponse("failure")
+    board.put_stone(pos)
+    while True:
+        com_available_pos_list = board.search_available()
+        if len(com_available_pos_list) == 0:
+            board.pss += 1
+            board.turn_change()
+            encode_and_save_session(request, board, "board")
+            return HttpResponse(board.get_flatten_board())
+        pos = random.choice(com_available_pos_list)
+        board.put_stone(pos)
+        if len(board.search_available()) != 0:
+            break
+        board.pss += 1
+        board.turn_change()
+
     encode_and_save_session(request, board, "board")
     return HttpResponse(board.get_flatten_board())
 
