@@ -18,11 +18,13 @@ from django.urls import path
 from machine import views
 import os
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('top/', views.TopView),
+    path('top/', views.top_view),
     path("login/", views.LoginView.as_view()),
-    path("logout/", views.log_out)
+    path("logout/", views.log_out),
+    path("test/", views.test_view),
+    path("othello/", views.OthelloView.as_view()),
+    path("put/", views.put_stone),
 
 ]

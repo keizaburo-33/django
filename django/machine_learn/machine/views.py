@@ -1,8 +1,12 @@
+import pickle
+import base64
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from machine.models import User
 from .script.board import Board
+from .script.common.common_script import encode_and_save_session, get_session_object
 
 
 # Create your views here.
@@ -34,11 +38,11 @@ class LoginView(TemplateView):
 
         if len(User.objects.filter(user_id=user_id, password=password)) == 0:
             User.objects.create(**info)
-        context={}
+        context = {}
         if "c" in c:
-            context=c["c"]
+            context = c["c"]
 
-        request.session["next"] = request.META.get('HTTP_REFERER','/top')
+        request.session["next"] = request.META.get('HTTP_REFERER', '/top')
 
         return render(request, self.template_name, context)
 
@@ -53,14 +57,35 @@ class LoginView(TemplateView):
         return redirect("/top")
 
 
-
-def TopView(request):
+def top_view(request):
     if not check_login(request):
-        print(request.session)
         return redirect("/login")
-    # if not "board" in request.session:
-    #     request.session["board"] = Board()
-    # board = request.session["board"]
-    # board.add()
-    # print(board.x)
+    if not "board" in request.session:
+        encode_and_save_session(request, Board(), "board")
+    board = get_session_object(request, "board")
+    encode_and_save_session(request, board, "board")
     return render(request, "top.html")
+
+
+class OthelloView(TemplateView):
+    template_name = "othello.html"
+
+    def get(self, request):
+        context = {}
+        return render(request, self.template_name, context)
+
+
+def put_stone(request):
+    cell = request.GET["cell"]
+    if cell=="start":
+        board = Board()
+        encode_and_save_session(request, board, "board")
+        return HttpResponse(board.get_flatten_board())
+    board=get_session_object(request,"board")
+    board.putstone(cell)
+    encode_and_save_session(request, board, "board")
+    return HttpResponse(board.get_flatten_board())
+
+
+def test_view(request):
+    return render(request, "test.html")

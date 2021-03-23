@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_COOKIE_AGE = 1800
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

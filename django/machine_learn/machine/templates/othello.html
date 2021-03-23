@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+    {% block content%}
+<style type="text/css">
+td {
+border: 1px solid black;
+width: 50px;
+height: 50px;
+background-color: green;
+text-align: center;
+vertical-align: middle;
+table-layout: fixed;
+padding: 1px 1px 1px 1px;
+font-size: 33px;
+}
+a{
+text-decoration: none;
+
+}
+</style>
+    <div class="center-block">
+        <table>
+            <script>
+                for(var i=0;i<8;i++){
+                    document.write("<tr>");
+                    for(var j=0;j<8;j++){
+                        document.write("<td id="+(8*i+j)+" onclick=put_stone("+(8*i+j)+")></td>");
+                    }
+                }
+            </script>
+        </table>
+    </div>
+    <button class="btn btn-primary" onclick="start()">試合開始</button>
+
+                    <script>
+                    function write_board(str){
+                        var board = Array.from(str);
+                        for (var i = 0; i < board.length; i++) {
+                            var stone=board[i];
+                            var stone_str="";
+                            console.log(stone_str);
+                            if(stone==1){
+                                stone_str="●";
+                            }
+                           else if(stone==2){
+                                stone_str="○";
+                           }
+                            document.getElementById(i).innerText =stone_str;
+                        }
+                    }
+                    function put_stone(stone_id){
+                        $.ajax(
+                          {
+                          url:("/put?cell="+stone_id)
+                          }
+                        ).done(
+                        function(data) {
+                              write_board(data);
+        }
+                        )
+                    }
+                                        function start(){
+                        $.ajax(
+                          {
+                          url:("/put?cell=start")
+                          }
+                        ).done(
+                        function(data) {
+                              write_board(data);
+        }
+                        )
+                    }
+
+                    </script>
+    {% endblock %}
