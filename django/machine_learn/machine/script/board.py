@@ -1,3 +1,4 @@
+import random
 import numpy as np
 
 
@@ -106,3 +107,42 @@ class Board:
         x = [str(int(k)) for k in x]
         x = ''.join(x)
         return x
+
+    def play(self, limit=100):
+        self.__init__()
+        t = 4
+        while True:
+            pos_list = self.search_available()
+            if len(pos_list) == 0:
+                self.pss += 1
+                if self.pss == 2:
+                    break
+                self.turn_change()
+                continue
+            pos = random.choice(pos_list)
+            self.put_stone(pos)
+            print("==========================")
+            print(self.board)
+            t += 1
+            if t >= limit:
+                break
+
+    def get_winner(self):
+        black_count = len(np.where(self.board == self.black)[0])
+        white_count = len(np.where(self.board == self.white)[0])
+        winner = 0
+        if black_count >= white_count:
+            winner = self.black
+        elif white_count > black_count:
+            winner = self.white
+        return winner, (black_count, white_count)
+
+    def available_turn(self):
+        if len(self.search_available()) == 0:
+            return False
+        return True
+
+    def random_put(self):
+        pos = random.choice(self.search_available())
+        self.put_stone(pos)
+        return pos

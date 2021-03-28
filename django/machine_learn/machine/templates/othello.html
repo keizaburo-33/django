@@ -30,6 +30,8 @@ text-decoration: none;
         </table>
     </div>
     <button class="btn btn-primary" onclick="start()">試合開始</button>
+    あなたのターン:<input type="radio" name="turn" value="1" checked>黒
+                 <input type="radio" name="turn" value="2">白
 
                     <script>
                     function write_board(str){
@@ -62,9 +64,10 @@ text-decoration: none;
                         )
                     }
                                         function start(){
+                        var turn= $('input:radio[name="turn"]:checked').val();
                         $.ajax(
                           {
-                          url:("/put?cell=start")
+                          url:("/put?cell=start&turn="+turn)
                           }
                         ).done(
                         function(data) {

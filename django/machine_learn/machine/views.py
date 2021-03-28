@@ -1,6 +1,3 @@
-import pickle
-import base64
-import numpy as np
 import random
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -8,6 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView
 from machine.models import User
 from .script.board import Board
+from .script.othello_learner import OthelloPlayer
 from .script.common.common_script import encode_and_save_session, get_session_object
 
 
@@ -80,10 +78,18 @@ class OthelloView(TemplateView):
 def put_stone(request):
     cell = request.GET["cell"]
     if cell == "start":
+        turn = int(request.GET["turn"])
         board = Board()
+        com_turn = 1 if turn == 2 else 2
+        othello_player = OthelloPlayer(com_turn, start_read=8)
+        if turn == 2:
+            pos = othello_player.get_agent_put_pos(board.board, board.turn, board.pss)
+            board.put_stone(pos)
         encode_and_save_session(request, board, "board")
+        encode_and_save_session(request, othello_player, "othello_player")
         return HttpResponse(board.get_flatten_board())
     board: Board = get_session_object(request, "board")
+    othello_player: OthelloPlayer = get_session_object(request, "othello_player")
     pos = board.num_to_pos(cell)
     if not board.is_available(pos):
         return HttpResponse("failure")
@@ -94,8 +100,9 @@ def put_stone(request):
             board.pss += 1
             board.turn_change()
             encode_and_save_session(request, board, "board")
+            encode_and_save_session(request, othello_player, "othello_player")
             return HttpResponse(board.get_flatten_board())
-        pos = random.choice(com_available_pos_list)
+        pos = othello_player.get_agent_put_pos(board.board, board.turn, board.pss)
         board.put_stone(pos)
         if len(board.search_available()) != 0:
             break
@@ -103,6 +110,7 @@ def put_stone(request):
         board.turn_change()
 
     encode_and_save_session(request, board, "board")
+    encode_and_save_session(request, othello_player, "othello_player")
     return HttpResponse(board.get_flatten_board())
 
 
